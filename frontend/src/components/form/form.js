@@ -10,6 +10,10 @@ import {
 import { useState } from "react";
 // import { Link } from "react-router-dom";
 import axios from "axios";
+// require("dotenv/config");
+require("dotenv").config();
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+// console.log(BASE_URL);
 
 const FormComponent = ({ history }) => {
   // first name of the person
@@ -263,7 +267,8 @@ const FormComponent = ({ history }) => {
     e.preventDefault();
     // https://cv-generator-mern.herokuapp.com/api
     axios
-      .post("http://localhost:3000/api", {
+      .post(`${BASE_URL}/api`, {
+      // .post(`http://localhost:4000/api`, {
         userFirstName,
         userSecondName,
         userGender,

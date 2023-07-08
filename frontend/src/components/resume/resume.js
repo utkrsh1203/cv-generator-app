@@ -3,6 +3,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import { FaLinkedin, FaGithubSquare } from "react-icons/fa";
 import { BiLink } from "react-icons/bi";
 import axios from "axios";
+import dotenv from "dotenv";
+// require("dotenv/config");
+require("dotenv").config();
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+// console.log(BASE_URL);
+// console.log(KEY);
 
 const ResumeComponent = ({ match }) => {
   const [userResumeData, setUserResumeData] = useState({});
@@ -10,14 +16,16 @@ const ResumeComponent = ({ match }) => {
   useEffect(() => {
     const fetchedData = async () => {
       // "https://cv-generator-mern.herokuapp.com/api"
-      await axios
-        .get(`http://localhost:3000/api/${match.params.id}`)
-        .then((res) => {
-          if (res.data.success) {
-            setMounted(true);
-            setUserResumeData(res.data.resumeData);
-          }
-        });
+      await axios;
+      // .get(`http://localhost:4000/api/${match.params.id}`)
+      // .then((res) => {
+      await axios.get(`${BASE_URL}/api/${match.params.id}`).then((res) => {
+        if (res.data.success) {
+          console.log(userResumeData);
+          setMounted(true);
+          setUserResumeData(res.data.resumeData);
+        }
+      });
     };
     fetchedData();
   }, [match.params.id]);
@@ -31,31 +39,39 @@ const ResumeComponent = ({ match }) => {
               <Row className='border-bottom border-dark w-100'>
                 <Col sm={12} md={6} className='py-4 px-4'>
                   <h1 className='text-dark font-weight-bold'>
-                    {userResumeData.userFirstName}
+                    {userResumeData.userFirstName === ""
+                      ? "First Name"
+                      : userResumeData.userFirstName}
                     {userResumeData.userSecondName}
                   </h1>
                   <h6 className='h5 text-dark'>
                     {userResumeData.userProfession}
                   </h6>
-                  <div className='w-25 d-flex justify-content-between user-social-icons'>
-                    <a
-                      href={`https://www.linkedin.com/in/${userResumeData.userLinkedInProfileName}/`}
-                      className='text-dark'
-                    >
-                      <FaLinkedin />
-                    </a>
-                    <a
-                      href={userResumeData.userPersonalWebsiteLink}
-                      className='text-dark'
-                    >
-                      <BiLink />
-                    </a>
-                    <a
-                      href={`https://github.com/${userResumeData.userGitHubProfileName}`}
-                      className='text-dark'
-                    >
-                      <FaGithubSquare />
-                    </a>
+                  <div className='w-25 d-flex justify-content-left user-social-icons'>
+                    {userResumeData.userLinkedInProfileName !== "" && (
+                      <a
+                        href={`https://www.linkedin.com/in/${userResumeData.userLinkedInProfileName}/`}
+                        className='text-dark'
+                      >
+                        <FaLinkedin />
+                      </a>
+                    )}
+                    {userResumeData.userPersonalWebsiteLink !== "" && (
+                      <a
+                        href={userResumeData.userPersonalWebsiteLink}
+                        className='text-dark'
+                      >
+                        <BiLink />
+                      </a>
+                    )}
+                    {userResumeData.userGitHubProfileName !== "" && (
+                      <a
+                        href={`https://github.com/${userResumeData.userGitHubProfileName}`}
+                        className='text-dark'
+                      >
+                        <FaGithubSquare />
+                      </a>
+                    )}
                   </div>
                 </Col>
                 <Col sm={12} md={6}>
@@ -123,7 +139,9 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.userHighSchoolName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.userHighSchoolStartingDate}/
+                      {userResumeData.userHighSchoolStartingDate}
+                      {/* {" to "} */}
+
                       {userResumeData.userHighSchoolEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
@@ -139,7 +157,9 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.userCollegeName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.userCollegeStartingDate}/
+                      {userResumeData.userCollegeStartingDate}
+                      {/* {" to "} */}
+
                       {userResumeData.userCollegeEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
@@ -155,7 +175,9 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.userUniversityName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.userBachelorStartingDate}/
+                      {userResumeData.userBachelorStartingDate}
+                      {/* {" to "} */}
+
                       {userResumeData.userBachelorEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
@@ -180,7 +202,8 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.user1stCompanyName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.user1stExperienceStartingDate}/
+                      {userResumeData.user1stExperienceStartingDate}
+                      {/* {" to "} */}
                       {userResumeData.user1stExperienceEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
@@ -196,7 +219,9 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.user2ndCompanyName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.user2ndExperienceStartingDate}/
+                      {userResumeData.user2ndExperienceStartingDate}
+                      {/* {" to "} */}
+
                       {userResumeData.user2ndExperienceEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
@@ -212,7 +237,9 @@ const ResumeComponent = ({ match }) => {
                       {userResumeData.user3rdCompanyName}
                     </h6>
                     <p className='text-dark font-weight-bold'>
-                      {userResumeData.user3rdExperienceStartingDate}/
+                      {userResumeData.user3rdExperienceStartingDate}
+                      {/* {" to "} */}
+
                       {userResumeData.user3rdExperienceEndingDate}
                     </p>
                     <p className='text-dark font-weight-normal'>
