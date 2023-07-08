@@ -30,7 +30,7 @@ app.get("/api/:id", async (req, res) => {
   res.send({ success: true, resumeData: data });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4001, () => {
   console
     .log
     // `server is listening at port ${process.env.PORT} in ${process.env.NODE_ENV} environment`
